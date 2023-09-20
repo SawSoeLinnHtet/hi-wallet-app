@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-class LoginController extends Controller
+class AdminLoginController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::ADMINPANEL;
 
     /**
      * Create a new controller instance.
@@ -36,16 +36,16 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('guest:admin_user')->except('logout');
     }
 
     protected function guard()
     {
-        return Auth::guard();
+        return Auth::guard('admin_user');
     }
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.admin_login');
     }
 }

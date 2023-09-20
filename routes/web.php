@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AdminLoginController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Frontend\PageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +15,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
+// User auth
 Auth::routes();
+// Admin user auth
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('get_admin_login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('post_admin_login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [PageController::class, 'home'])->name('home');
