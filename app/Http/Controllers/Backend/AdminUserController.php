@@ -32,7 +32,7 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.admin_user.create');
     }
 
     /**
@@ -43,7 +43,16 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:admin_users,email',
+            'phone' => 'required|numeric|unique:admin_users,phone',
+            'password' => 'required'
+        ]);
+
+        $admin_user = AdminUser::create($data);
+
+        return redirect()->route('admin.admin-user.index')->with('success', 'Admin User Created Successfully');
     }
 
     /**

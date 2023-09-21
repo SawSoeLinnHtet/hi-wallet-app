@@ -14,6 +14,7 @@
     <link href="{{ asset('backend/css/main.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('backend/css/style.css') }}">
     @stack('style')
 </head>
 <body>
@@ -46,5 +47,13 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.back-btn').on('click', function () {
+                window.history.go(-1);
+                return false;
+            });
+        });
+    </script>
     @stack('script')
 </html>

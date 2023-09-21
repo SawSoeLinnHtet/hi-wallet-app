@@ -17,7 +17,13 @@
             </div>
         </div>
     </div>
+
     <div class="container">
+        <div class="py-1 mb-3">
+            <a href="{{ route('admin.admin-user.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i> Add Admin User
+            </a>
+        </div>
         <div class="card">
             <div class="card-body">
                 <table id="datatable" class="table table-striped table-bordered" style="width:100%">
