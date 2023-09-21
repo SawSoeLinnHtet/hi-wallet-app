@@ -12,6 +12,9 @@
     <meta name="msapplication-tap-highlight" content="no">
 
     <link href="{{ asset('backend/css/main.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
+    @stack('style')
 </head>
 <body>
     <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
@@ -39,5 +42,9 @@
             </div>
         </div>
     </div>
-<script type="text/javascript" src="{{ asset('backend/js/main.js') }}"></script></body>
+    <script type="text/javascript" src="{{ asset('backend/js/main.js') }}"></script></body>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap4.min.js"></script>
+    @stack('script')
 </html>

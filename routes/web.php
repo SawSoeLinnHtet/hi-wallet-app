@@ -18,7 +18,8 @@ use App\Http\Controllers\Frontend\PageController;
 // User auth
 Auth::routes();
 // Admin user auth
-Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('get_admin_login');
-Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('post_admin_login');
+Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->middleware('guest:admin_user')->name('get.admin.login');
+Route::post('/admin/login', [AdminLoginController::class, 'login'])->middleware('guest:admin_user')->name('post.admin.login');
+Route::post('/admin/logout', [AdminLoginController::class, 'logout'])->middleware('auth:admin_user')->name('admin.logout');
 
 Route::get('/', [PageController::class, 'home'])->name('home');

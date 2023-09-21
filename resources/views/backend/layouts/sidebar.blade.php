@@ -39,6 +39,12 @@
                         Dashboard
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.admin-user.index') }}" class="@if (Request::routeIs('admin.admin-user.*')) {{'mm-active'}} @endif">
+                        <i class="metismenu-icon pe-7s-users"></i>
+                        Admin User Management
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

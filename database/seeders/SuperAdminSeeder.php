@@ -18,7 +18,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Saw Soe Linn Htet',
             'email' => 'admin@gmail.com',
             'phone' => '09962569030',
-            'password' => '123123123',
+            'password' => bcrypt('123123123'),
         ]);
     }
 }

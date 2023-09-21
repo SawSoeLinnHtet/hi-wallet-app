@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\PageController;
+use App\Models\AdminUser;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,12 @@ use App\Http\Controllers\Backend\PageController;
 |
 */
 
-Route::prefix('admin')->middleware('auth:admin_user')->group(function () {
-    Route::get('/', [PageController::class, 'home'])->name('admin.home');
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.',
+    'middleware' => 'auth:admin_user'
+], function () {
+    Route::get('/', [PageController::class, 'home'])->name('home');
+    Route::resource('admin-user', AdminUserController::class);
+    Route::get('admin-user/datatable/ssd', [AdminUserController::class, 'ssd']);
 });
