@@ -18,14 +18,15 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-body">
+                @include('backend.layouts.flash ')
                 <form action="{{ route('admin.admin-user.store') }}" method="POST">
                     @csrf
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
@@ -47,5 +48,9 @@
             </div>
         </div>
     </div>
+
+    @push('script')
+        {!! JsValidator::formRequest('App\Http\Requests\AdminUserRequest') !!}
+    @endpush
 
 @endsection

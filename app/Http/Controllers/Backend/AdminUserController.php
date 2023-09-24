@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AdminUserRequest;
 use App\Models\AdminUser;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -23,7 +24,14 @@ class AdminUserController extends Controller
     {
         $admin_users = AdminUser::query();
 
-        return DataTables::of($admin_users)->make(true);
+        return DataTables::of($admin_users)
+            ->addColumn('action', function ($each) {
+                $edit_btn = '<a href="'.route('admin.admin-user.edit', $each->id).'" class="text-warning"><i class="fas fa-edit"></i></a>';
+                $delete_btn = '<a href="" class="text-danger delete-btn" data-id="'.$each->id.'"><i class="fas fa-trash"></i></a>';
+
+                return '<div class="action-icon">'. $edit_btn . $delete_btn .'</div>';
+            })
+        ->make(true);
     }
     /**
      * Show the form for creating a new resource.
@@ -41,18 +49,13 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AdminUserRequest $request)
     {
-        $data = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:admin_users,email',
-            'phone' => 'required|numeric|unique:admin_users,phone',
-            'password' => 'required'
-        ]);
+        $data = $request->validated();
 
         $admin_user = AdminUser::create($data);
 
-        return redirect()->route('admin.admin-user.index')->with('success', 'Admin User Created Successfully');
+        return redirect()->route('admin.admin-user.index')->with('create', 'Admin Created Successfully');
     }
 
     /**
@@ -72,9 +75,9 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(AdminUser $admin_user)
     {
-        //
+        return view('backend.admin_user.edit', ['admin_user' => $admin_user]);
     }
 
     /**
@@ -84,9 +87,11 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AdminUserRequest $request, AdminUser $admin_user)
     {
-        //
+        $admin_user->update($request->except(['_token', '_method']));
+
+        return redirect()->route('admin.admin-user.index')->with('update', 'Admin data updated successfully');
     }
 
     /**
@@ -95,8 +100,10 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AdminUser $admin_user)
     {
-        //
+        $admin_user->delete();
+
+        return "success";
     }
 }

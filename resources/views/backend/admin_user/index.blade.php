@@ -41,6 +41,9 @@
                             <th>
                                 Phone
                             </th>
+                            <th>
+                                Action
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,7 +53,7 @@
                 @push('script')
                     <script>
                         $(document).ready(function () {
-                            $('#datatable').DataTable({
+                            var table = $('#datatable').DataTable({
                                 processing: true,
                                 serverside: true,
                                 ajax: "/admin/admin-user/datatable/ssd",
@@ -74,8 +77,43 @@
                                     {
                                         data: 'phone',
                                         name: 'phone'
+                                    },
+                                    {
+                                        data: 'action',
+                                        name: 'action'
                                     }
                                 ]
+                            });
+
+                            $(document).on('click', '.delete-btn', function (e) {
+                                e.preventDefault();
+
+                                var id = $(this).data('id');
+                                
+                                Swal.fire({
+                                    title: 'Are you sure?',
+                                    text: "You won't be able to revert this!",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, delete it!'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        $.ajax({
+                                            url: '/admin/admin-user/' + id,
+                                            type: 'DELETE',
+                                            success: function () {
+                                                Swal.fire(
+                                                    'Deleted!',
+                                                    'Your file has been deleted.',
+                                                    'success'
+                                                )
+                                                table.ajax.reload()
+                                            }
+                                        })
+                                    }
+                                })
                             });
                         })
                     </script>
