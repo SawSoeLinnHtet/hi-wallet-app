@@ -23,7 +23,7 @@
         @include('backend.layouts.header')
         <div class="app-main">
             @include('backend.layouts.sidebar')
-            <div class="app-main__outer">
+            <div class="app-main__outer" style="width: 95%">
                 <div class="app-main__inner">
                     @yield('content')
                 </div>

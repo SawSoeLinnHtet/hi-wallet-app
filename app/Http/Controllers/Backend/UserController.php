@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use Carbon\Carbon;
-use App\Models\AdminUser;
+use App\Models\User;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AdminUserRequest;
 
-class AdminUserController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,14 +19,14 @@ class AdminUserController extends Controller
      */
     public function index()
     {
-        return view('backend.admin_user.index');
+        return view('backend.user.index');
     }
 
     public function ssd()
     {
-        $admin_users = AdminUser::query();
+        $users = User::query();
 
-        return DataTables::of($admin_users)
+        return DataTables::of($users)
             ->editColumn('ip', function ($each) {
                 if ($each->ip) {
                     return $each->ip;
@@ -58,14 +58,15 @@ class AdminUserController extends Controller
                 return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
             })
             ->addColumn('action', function ($each) {
-                $edit_btn = '<a href="'.route('admin.admin-user.edit', $each->id).'" class="text-warning"><i class="fas fa-edit"></i></a>';
-                $delete_btn = '<a href="" class="text-danger delete-btn" data-id="'.$each->id.'"><i class="fas fa-trash"></i></a>';
+                $edit_btn = '<a href="' . route('admin.user.edit', $each->id) . '" class="text-warning"><i class="fas fa-edit"></i></a>';
+                $delete_btn = '<a href="" class="text-danger delete-btn" data-id="' . $each->id . '"><i class="fas fa-trash"></i></a>';
 
-                return '<div class="action-icon">'. $edit_btn . $delete_btn .'</div>';
+                return '<div class="action-icon">' . $edit_btn . $delete_btn . '</div>';
             })
         ->rawColumns(['ip', 'user_agent', 'action'])
         ->make(true);
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -73,7 +74,7 @@ class AdminUserController extends Controller
      */
     public function create()
     {
-        return view('backend.admin_user.create');
+        return view('backend.user.create');
     }
 
     /**
@@ -82,13 +83,13 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AdminUserRequest $request)
+    public function store(UserRequest $request)
     {
         $data = $request->validated();
 
-        $admin_user = AdminUser::create($data);
+        $user = User::create($data);
 
-        return redirect()->route('admin.admin-user.index')->with('create', 'Admin Created Successfully');
+        return redirect()->route('admin.user.index')->with('create', 'User Create Successfully');
     }
 
     /**
@@ -108,9 +109,9 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(AdminUser $admin_user)
+    public function edit(User $user) 
     {
-        return view('backend.admin_user.edit', ['admin_user' => $admin_user]);
+        return view('backend.user.edit')->with('user', $user);
     }
 
     /**
@@ -120,11 +121,11 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminUserRequest $request, AdminUser $admin_user)
+    public function update(UserRequest $request, User $user)
     {
-        $admin_user->update($request->except(['_token', '_method']));
+        $user->update($request->except(['_token', '_method']));
 
-        return redirect()->route('admin.admin-user.index')->with('update', 'Admin data updated successfully');
+        return redirect()->route('admin.user.index')->with('update', 'User data updated successfully');
     }
 
     /**
@@ -133,10 +134,10 @@ class AdminUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdminUser $admin_user)
+    public function destroy(User $user)
     {
-        $admin_user->delete();
+        $user->delete();
 
-        return "success";
+        return 'success';
     }
 }

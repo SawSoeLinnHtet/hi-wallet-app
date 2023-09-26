@@ -12,7 +12,7 @@
                     </i>
                 </div>
                 <div>
-                    Admin User
+                    User
                 </div>
             </div>
         </div>
@@ -20,8 +20,8 @@
 
     <div>
         <div class="py-1 mb-3">
-            <a href="{{ route('admin.admin-user.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus-circle"></i> Add Admin User
+            <a href="{{ route('admin.user.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus-circle"></i> Add New User
             </a>
         </div>
         <div class="card">
@@ -68,7 +68,7 @@
                             var table = $('#datatable').DataTable({
                                 processing: true,
                                 serverside: true,
-                                ajax: "/admin/admin-user/datatable/ssd",
+                                ajax: "/admin/user/datatable/ssd",
                                 columns: [
                                     {
                                         data: 'id',
@@ -136,7 +136,7 @@
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         $.ajax({
-                                            url: '/admin/admin-user/' + id,
+                                            url: '/admin/user/' + id,
                                             type: 'DELETE',
                                             success: function () {
                                                 Swal.fire(

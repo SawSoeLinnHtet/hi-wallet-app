@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -54,5 +55,14 @@ class AdminLoginController extends Controller
         Auth::guard('admin_user')->logout();
 
         return redirect()->route('get.admin.login');
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        $user->ip = $request->ip();
+        $user->user_agent = $request->server('HTTP_USER_AGENT');
+        $user->update();
+
+        return redirect($this->redirectTo);
     }
 }

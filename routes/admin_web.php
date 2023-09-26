@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\Backend\AdminUserController;
+use App\Models\AdminUser;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\PageController;
-use App\Models\AdminUser;
+use App\Http\Controllers\Backend\UserController;
+use App\Http\Controllers\Backend\AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,7 @@ Route::group([
     Route::get('/', [PageController::class, 'home'])->name('home');
     Route::resource('admin-user', AdminUserController::class);
     Route::get('admin-user/datatable/ssd', [AdminUserController::class, 'ssd']);
+
+    Route::resource('user', UserController::class);
+    Route::get('user/datatable/ssd', [UserController::class, 'ssd']);
 });
