@@ -47,10 +47,10 @@
                             <th class="no-sort">
                                 User Agent
                             </th>
-                            <th>
-                                Created At
+                            <th class="no-sort">
+                                Login At
                             </th>
-                            <th>
+                            <th class="no-sort">
                                 Updated At
                             </th>
                             <th class="no-sort">
@@ -99,8 +99,8 @@
                                         name: 'user_agent'
                                     },
                                     {
-                                        data: 'created_at',
-                                        name: 'created_at'
+                                        data: 'login_at',
+                                        name: 'login_at'
                                     },
                                     {
                                         data: 'updated_at',

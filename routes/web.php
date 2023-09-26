@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\PageController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Frontend\PageController;
 */
 // User auth
 Auth::routes();
+Route::post('/logout', [LoginController::class, 'logout'])->middleware('auth')->name('logout');
 // Admin user auth
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->middleware('guest:admin_user')->name('get.admin.login');
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->middleware('guest:admin_user')->name('post.admin.login');
