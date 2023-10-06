@@ -36,7 +36,7 @@ class AdminUserRequest extends FormRequest
                 'name' => 'required',
                 'email' => 'required|email|unique:admin_users,email',
                 'phone' => 'required|numeric|unique:admin_users,phone',
-                'password' => 'required'
+                'password' => 'required|between:8,20'
             ];
         }
     }

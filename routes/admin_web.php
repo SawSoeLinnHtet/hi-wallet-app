@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\WalletController;
 use App\Models\AdminUser;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\PageController;
@@ -28,4 +29,7 @@ Route::group([
 
     Route::resource('user', UserController::class);
     Route::get('user/datatable/ssd', [UserController::class, 'ssd']);
+
+    Route::get('wallet', [WalletController::class, 'index'])->name('wallet.index');
+    Route::get('wallet/datatable/ssd', [WalletController::class, 'ssd']);
 });

@@ -51,6 +51,12 @@
                         User Management
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.wallet.index') }}" class="@if (Request::routeIs('admin.wallet.*')) {{'mm-active'}} @endif">
+                        <i class="metismenu-icon pe-7s-wallet"></i>
+                        Wallet
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

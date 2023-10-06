@@ -52,7 +52,6 @@
     <script src="{{ asset('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
     <script>
         $(document).ready(function () {
-
             let token = document.head.querySelector('meta[name="csrf-token"]');
 
             if(token){

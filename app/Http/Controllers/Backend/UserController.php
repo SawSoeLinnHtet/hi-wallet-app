@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Helpers\UUIDGenerate;
+use Exception;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Wallet;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -74,63 +78,65 @@ class UserController extends Controller
         return view('backend.user.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(UserRequest $request)
     {
         $data = $request->validated();
 
-        $user = User::create($data);
+        DB::beginTransaction();
+        try {
+            $user = User::create($data);
 
-        return redirect()->route('admin.user.index')->with('create', 'User Create Successfully');
+            Wallet::firstOrCreate(
+                ['user_id' =>  $user->id],
+                [
+                    'account_number' => UUIDGenerate::accountNumber(),
+                    'amount' => 0,
+                ]
+            );
+            DB::commit();
+
+            return redirect()->route('admin.user.index')->with('create', 'User Create Successfully');
+        } catch (Exception $e) {
+            DB::rollBack();
+
+            return back()->withErrors(['fail' => 'Something wrong. ' . $e->getMessage()])->withInput();
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $user) 
     {
         return view('backend.user.edit')->with('user', $user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->except(['_token', '_method']));
+        DB::beginTransaction();
 
-        return redirect()->route('admin.user.index')->with('update', 'User data updated successfully');
+        try{
+            $user->update($request->except(['_token', '_method']));
+
+            Wallet::firstOrCreate(
+                ['user_id' =>  $user->id],
+                [
+                    'account_number' => UUIDGenerate::accountNumber(),
+                    'amount' => 0,
+                ]
+            );
+            DB::commit();
+
+            return redirect()->route('admin.user.index')->with('update', 'User data updated successfully');
+        }catch(Exception $e){
+            DB::rollBack();
+
+            return back()->withErrors(['fail' => 'Something wrong. '.$e->getMessage()])->withInput();
+        }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $user)
     {
         $user->delete();

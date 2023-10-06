@@ -25,8 +25,8 @@
             </a>
         </div>
         <div class="card">
-            <div class="card-body">
-                <table id="datatable" class="table table-striped table-bordered table-responsive" style="width:100%">
+            <div class="card-body table-responsive">
+                <table id="datatable" class="table table-striped table-bordered">
                     <thead>
                         <tr>    
                             <th>
