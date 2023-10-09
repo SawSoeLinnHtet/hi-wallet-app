@@ -28,13 +28,22 @@ Route::group([
     'middleware' => ['auth']
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
+
     Route::get('/profile', 'ProfileController@index')->name('profile');
+
     Route::get('/update-password', 'PasswordController@index')->name('get-update-password');
     Route::post('/update-password', 'PasswordController@update')->name('post-update-password');
+
     Route::get('/wallet', 'WalletController@index')->name('get-wallet-index');
+
     Route::get('/check_account', 'WalletController@check')->name('get-wallet-check-account');
+
     Route::get('/transfer', 'WalletController@transfer')->name('get-wallet-transfer');
-    Route::get('/transfer/confirm', 'WalletController@transferConfirm')->name('post-wallet-transfer-confirm');
+    Route::get('/transfer/confirm', 'WalletController@transferConfirm')->name('get-wallet-transfer-confirm');
     Route::post('/transfer/complete', 'WalletController@transferComplete')->name('post-wallet-transfer-complete');
     Route::get('/transfer/confirm/password/check', 'WalletController@passwordCheck')->name('get-tranfer-password-check');
+    Route::get('/transfer/hash', 'WalletController@transferHash')->name('get-wallet-hash');
+
+    Route::get('/transaction', 'TransactionController@index')->name('get-transaction-index');
+    Route::get('/transaction/{trx_id}', 'TransactionController@details')->name('get-transaction-details');
 });

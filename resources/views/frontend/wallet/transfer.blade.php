@@ -5,13 +5,16 @@
 @section('content')
     <div class="transfer">
         <div class="card">
-            <form action="{{ route('post-wallet-transfer-confirm') }}" method="GET" autocomplete="off">
+            @include('frontend.layouts.flash')
+            <form action="{{ route('get-wallet-transfer-confirm') }}" id="transfer-form" method="GET" autocomplete="off">
                 <div class="card-body">
                     <div class="form-group mb-2">
                         <label for="" class="mb-1">From</label>
                         <p class="mb-1 text-muted">{{ auth()->user()->name }}</p>
                         <p class="mb-1 text-muted">{{ auth()->user()->phone }}</p>
                     </div>
+
+                    <input type="hidden" class="hash_value" id="hash_value" name="hash_value" value="">
 
                     <div class="form-group mb-2">
                         <label for="" class="mb-2">To <span class="text-danger">* </span><span class="text-success" id="to_account_info"></span></label>
@@ -27,8 +30,8 @@
                     </div>
 
                     <div class="form-group mb-2"> 
-                        <label for="" class="mb-2">Amount (MMK) <span class="text-danger">*</span></label>
-                        <input type="number" name="amount" class="form-control" value="{{ old('amount') }}">
+                        <label for="amount" class="mb-2">Amount (MMK) <span class="text-danger">*</span></label>
+                        <input type="number" name="amount" id="amount" class="form-control" value="{{ old('amount') }}">
                         @error('amount')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
@@ -39,11 +42,11 @@
                     </div>
 
                     <div class="form-group mb-2">
-                        <label for="" class="mb-2">Description</label>
-                        <textarea name="description" id="" class="form-control">{{ old('amount') }}</textarea>
+                        <label for="description" class="mb-2">Description</label>
+                        <textarea name="description" id="description" class="form-control">{{ old('amount') }}</textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-theme w-100 mt-4">Continue</button>
+                    <button type="submit" class="btn btn-theme w-100 mt-4 submit-btn">Continue</button>
                 </div>
             </form>
         </div>
@@ -64,6 +67,26 @@
                             $('#to_account_info').text('('+' '+res.data['name']+' '+')');
                         }else {
                             $('#to_account_info').text('('+' '+res.message+' '+')').addClass('text-danger');
+                        }
+                    }
+                })
+            })
+
+            $(document).on('click', '.submit-btn', function (e) {
+                e.preventDefault()
+
+                var to_phone = $('#to_phone').val();
+                var amount = $('#amount').val();
+                var description = $('#description').val();
+
+                $.ajax({
+                    url: `/transfer/hash?to_phone=${to_phone}&amount=${amount}&description=${description}`,
+                    type: 'GET',
+                    success: function (res) {
+                        if (res.status == 'success') {
+                            $('#hash_value').val(res.data);
+
+                            $('#transfer-form').submit()
                         }
                     }
                 })

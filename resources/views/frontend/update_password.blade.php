@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="form-group me-3 pt-4">
-                        <button type="submit" class="btn btn-theme w-100">Submit</button>
+                    <button type="submit" class="btn btn-theme w-100">Update Password</button>
                     </div>
                 </form>
             </div>

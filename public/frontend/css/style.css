@@ -176,7 +176,7 @@ a:hover{
 
 /* ------------------Update password--------------------- */
 .update-password img{
-    width: 300px;
+    width: 220px;
 }
 
 /* ------------------Scan Tab--------------------- */
@@ -275,4 +275,19 @@ a:hover{
     width: 28px;
     height: 28px;
     margin-right: 8px;
+}
+
+/* ------------------Transaction--------------------- */
+
+.transaction-details img{
+    width: 60px;
+    height: 60px;
+}
+
+.income-color{
+    background-color: #28A745;
+}
+
+.expense-color{
+    background-color: #DC3545;
 }

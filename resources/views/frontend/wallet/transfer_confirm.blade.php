@@ -8,6 +8,7 @@
             @include('frontend.layouts.flash')
             <form action="{{ route('post-wallet-transfer-complete') }}" method="POST" id="confirm_form">
                 @csrf
+                <input type="hidden" name="hash_value" value="{{ $hash_value }}">
                 <input type="hidden" name="to_phone" value="{{ $to_account->phone }}">
                 <input type="hidden" name="amount" value="{{ $amount }}">
                 <input type="hidden" name="description" value="{{ $description }}">
@@ -47,11 +48,11 @@
         $(document).ready(function () {
             $('#confirm-btn').on('click', function (e) {
                 e.preventDefault();
-
+                
                 Swal.fire({
                     title: 'Please fill your password!',
                     icon: 'info',
-                    html:'<input type="password" name="password" class="form-control mt-2 text-center" id="password">',
+                    html:'<input type="password" id="password" name="password" class="form-control mt-2 text-center">',
                     showCloseButton: true,
                     showCancelButton: true,
                     reverseButtons: true,
@@ -78,6 +79,8 @@
                         })
                     }
                 })
+
+                $('#password').focus();
             })
         })
     </script>

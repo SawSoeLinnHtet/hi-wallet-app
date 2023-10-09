@@ -25,7 +25,7 @@
                         </a>
                     </div>
                     <div class="col-3 text-center">
-                        <a href="#">
+                        <a href="{{ route('get-transaction-index') }}">
                             <i class="fas fa-exchange-alt"></i>
                             <p>
                                 Transaction

@@ -49,7 +49,7 @@
                         </div>
                         <hr>
                         <div class="point">
-                            <a href="#" class="d-flex justify-content-between">
+                            <a href="{{ route('get-wallet-index') }}" class="d-flex justify-content-between">
                                 <span>
                                     <img src="{{ asset('frontend/img/wallet.png') }}" alt="">
                                     Wallet
@@ -61,7 +61,7 @@
                         </div>
                         <hr>
                         <div class="point">
-                            <a href="#" class="d-flex justify-content-between">
+                            <a href="{{ route('get-transaction-index') }}" class="d-flex justify-content-between">
                                 <span>
                                     <img src="{{ asset('frontend/img/mobile-transfer.png') }}" alt="">
                                     Transaction
