@@ -46,4 +46,8 @@ Route::group([
 
     Route::get('/transaction', 'TransactionController@index')->name('get-transaction-index');
     Route::get('/transaction/{trx_id}', 'TransactionController@details')->name('get-transaction-details');
+
+    Route::get('/receive_qr', 'QrController@reveive')->name('get-receive-qr');
+    Route::get('/scan_and_pay', 'QrController@scanAndPay')->name('get-scan-and-pay');
+    Route::get('/scan_and_pay/form', 'QrController@form')->name('get-scan-and-pay-form');
 });

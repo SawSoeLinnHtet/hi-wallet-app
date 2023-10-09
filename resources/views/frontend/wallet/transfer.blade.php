@@ -8,7 +8,7 @@
             @include('frontend.layouts.flash')
             <form action="{{ route('get-wallet-transfer-confirm') }}" id="transfer-form" method="GET" autocomplete="off">
                 <div class="card-body">
-                    <div class="form-group mb-2">
+                    <div class="form-group mb-3">
                         <label for="" class="mb-1">From</label>
                         <p class="mb-1 text-muted">{{ auth()->user()->name }}</p>
                         <p class="mb-1 text-muted">{{ auth()->user()->phone }}</p>
@@ -16,18 +16,28 @@
 
                     <input type="hidden" class="hash_value" id="hash_value" name="hash_value" value="">
 
-                    <div class="form-group mb-2">
-                        <label for="" class="mb-2">To <span class="text-danger">* </span><span class="text-success" id="to_account_info"></span></label>
-                        <div class="input-group mb-1">
-                            <input type="text" class="form-control" name="to_phone" id="to_phone" value="{{ old('to_phone') }}">
-                            <span class="input-group-text check-account point px-4">
-                                <i class="fas fa-check-circle"></i>
-                            </span>
+                    @if(!isset($to_phone))
+                        <div class="form-group mb-2">
+                            <label for="" class="mb-2">To <span class="text-danger">* </span><span class="text-success" id="to_account_info"></span></label>
+                            <div class="input-group mb-1">
+                                <input type="text" class="form-control" name="to_phone" id="to_phone" value="{{ old('to_phone') }}">
+                                <span class="input-group-text check-account point px-4">
+                                    <i class="fas fa-check-circle"></i>
+                                </span>
+                            </div>
+                            @error('to_phone')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
-                        @error('to_phone')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                    @else
+                        <div class="form-group mb-3">
+                            <label for="" class="mb-1">To</label>
+                            <p class="mb-1 text-muted">{{ $to_phone->name }}</p>
+                            <p class="mb-1 text-muted">{{ $to_phone->phone }}</p>
+                        </div>
+
+                        <input type="hidden" name="to_phone" id="to_phone" value="{{ $to_phone->phone }}">
+                    @endif
 
                     <div class="form-group mb-2"> 
                         <label for="amount" class="mb-2">Amount (MMK) <span class="text-danger">*</span></label>
@@ -43,7 +53,7 @@
 
                     <div class="form-group mb-2">
                         <label for="description" class="mb-2">Description</label>
-                        <textarea name="description" id="description" class="form-control">{{ old('amount') }}</textarea>
+                        <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
                     </div>
 
                     <button type="submit" class="btn btn-theme w-100 mt-4 submit-btn">Continue</button>

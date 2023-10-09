@@ -13,24 +13,28 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="card shortcut-box mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{ asset('frontend/img/qr-code-scan.png') }}" alt="">
-                        <span>
-                            Scan & Pay
-                        </span>
+                <a href="{{ route('get-scan-and-pay') }}">
+                    <div class="card shortcut-box mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{ asset('frontend/img/qr-code-scan.png') }}" alt="">
+                            <span>
+                                Scan & Pay
+                            </span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-6">
-                <div class="card shortcut-box mb-3">
-                    <div class="card-body p-3">
-                        <img src="{{ asset('frontend/img/qr-code.png') }}" alt="">
-                        <span>
-                            Receive QR
-                        </span>
+                <a href="{{ route('get-receive-qr') }}">
+                    <div class="card shortcut-box mb-3">
+                        <div class="card-body p-3">
+                            <img src="{{ asset('frontend/img/qr-code.png') }}" alt="">
+                            <span>
+                                Receive QR
+                            </span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
             <div class="col-12">

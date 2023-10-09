@@ -27,36 +27,49 @@
                 </div>
             </div>
         </div>
-        <h6 class="ms-2"><i class="fas fa-exchange-alt me-2"></i>Transactions</h6>
-        <div class="infinite-scroll">
-            @foreach ($transactions as $transaction)
-                <div class="card mb-2">
-                    <div class="card-body p-2 px-3">
-                        <div class="d-flex justify-content-between">
-                            <h6 class="mb-1">
-                                <small>Trx ID: </small> {{ $transaction->trx_id }}
-                            </h6>
-                            <p class="mb-1 {{ $transaction->type == 'income' ? 'text-success' : 'text-danger' }}">
-                                {{ number_format($transaction->amount) }} <small>MMK</small>
-                            </p>
+        @if($transactions->count() !== 0)
+            <h6 class="ms-2"><i class="fas fa-exchange-alt me-2"></i>Transactions</h6>
+            <div class="infinite-scroll">
+                    @foreach ($transactions as $transaction)
+                        <div class="card mb-2">
+                            <div class="card-body p-2 px-3">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="mb-1">
+                                        <small>Trx ID: </small> {{ $transaction->trx_id }}
+                                    </h6>
+                                    <p class="mb-1 {{ $transaction->type == 'income' ? 'text-success' : 'text-danger' }}">
+                                        {{ number_format($transaction->amount) }} <small>MMK</small>
+                                    </p>
+                                </div>
+                                <p class="mb-1 text-muted">
+                                    {{ $transaction->type == 'income' ? 'From' : 'To' }} {{ $transaction->Source->name }}
+                                </p>
+                                <p class="mb-1 text-muted">
+                                    {{ $transaction->created_at }}
+                                </p>
+                                <a href="{{ route('get-transaction-details', $transaction->trx_id) }}" class="border-top border-muted py-2 d-flex justify-content-between">
+                                    <span class="fw-bold">Details</span>
+                                    <span class="me-3">
+                                        <i class="fas fa-angle-right"></i>
+                                    </span>
+                                </a>
+                            </div>
                         </div>
-                        <p class="mb-1 text-muted">
-                            {{ $transaction->type == 'income' ? 'From' : 'To' }} {{ $transaction->Source->name }}
+                    @endforeach
+                    {{ $transactions->links() }}
+            </div>
+        @else
+            <div class="card mb-2">
+                <div class="card-body p-2 px-3">
+                    <div class="text-center">
+                        <img src="{{ asset('frontend/img/page-not-found.png') }}" alt="">
+                        <p class="text-danger mt-3 fw-bold">
+                            No Data Found on that filer!
                         </p>
-                        <p class="mb-1 text-muted">
-                            {{ $transaction->created_at }}
-                        </p>
-                        <a href="{{ route('get-transaction-details', $transaction->trx_id) }}" class="border-top border-muted py-2 d-flex justify-content-between">
-                            <span class="fw-bold">Details</span>
-                            <span class="me-3">
-                                <i class="fas fa-angle-right"></i>
-                            </span>
-                        </a>
                     </div>
                 </div>
-            @endforeach
-            {{ $transactions->links() }}
-        </div>
+            </div>
+        @endif
     </div>
 @endsection
 
