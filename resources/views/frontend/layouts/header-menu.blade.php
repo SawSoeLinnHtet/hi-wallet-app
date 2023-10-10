@@ -16,8 +16,8 @@
                         </h3>
                     </div>
                     <div class="col-2 text-center">
-                        <a href="#">
-                            <i class="fas fa-bell"></i>
+                        <a href="{{ route('get-notification') }}" class="position-relative">
+                            <i class="fas fa-bell"></i> <span class="badge noti-badge badge-pill">{{ $unread_noti_count }}</span>
                         </a>
                     </div>
                 </div>

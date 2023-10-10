@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Helpers\UUIDGenerate;
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\TransferRequest;
-use App\Models\Transaction;
-use Illuminate\Support\Facades\DB;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 
 class WalletController extends Controller
 {
@@ -138,7 +140,7 @@ class WalletController extends Controller
                 'description' => $description
             ];
 
-            $trx = Transaction::create($from_account_data);
+            $from_trx = Transaction::create($from_account_data);
 
             $to_account_data = [
                 'ref_no' => $ref_no,
@@ -150,10 +152,28 @@ class WalletController extends Controller
                 'description' => $description
             ];
 
-            Transaction::create($to_account_data);
+            $to_trx = Transaction::create($to_account_data);
 
+            //From Noti
+            $title = 'E-Money Transfered!';
+            $message = 'Your e-money transfered '. number_format($amount) . ' MMK to ' . $to_account->name . ' ( ' .$to_account->phone . ' )';
+            $sourceable_id = $from_trx->trx_id;
+            $sourceable_type = Transaction::class;
+            $web_link = route('get-transaction-details', $from_trx->trx_id);
+
+            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+
+            //To Noti
+            $title = 'E-Money Received!';
+            $message = 'Your wallet received '. number_format($amount) . ' MMK from ' . $from_account->name . ' ( ' . $from_account->phone . ' )';
+            $sourceable_id = $to_trx->trx_id;
+            $sourceable_type = User::class;
+            $web_link = route('get-transaction-details', $to_trx->trx_id);
+
+            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            
             DB::commit();
-            return redirect()->route('get-transaction-details', $trx->trx_id)->with('transfer_success', 'Successfully transfer');
+            return redirect()->route('get-transaction-details', $from_trx->trx_id)->with('transfer_success', 'Successfully transfer');
         }catch(\Exception $e) {
             DB::rollBack();
 

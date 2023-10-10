@@ -122,6 +122,7 @@
                 e.preventDefault();
 
                 window.history.go(-1);
+                window.location.reload()
                 return false;
             });
 

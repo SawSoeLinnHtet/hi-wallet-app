@@ -50,4 +50,7 @@ Route::group([
     Route::get('/receive_qr', 'QrController@reveive')->name('get-receive-qr');
     Route::get('/scan_and_pay', 'QrController@scanAndPay')->name('get-scan-and-pay');
     Route::get('/scan_and_pay/form', 'QrController@form')->name('get-scan-and-pay-form');
+
+    Route::get('/notification', 'NotificationController@index')->name('get-notification');
+    Route::get('/notification/{id}/details', 'NotificationController@show')->name('get-notification-details');
 });
