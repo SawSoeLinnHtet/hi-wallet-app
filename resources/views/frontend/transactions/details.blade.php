@@ -45,7 +45,9 @@
                 <hr>
                 <div class="d-flex justify-content-between">
                     <p class="mb-0 text-muted">Transaction Time:</p>
-                    <p class="mb-0">{{ $transaction->created_at }}</p>
+                    <p class="mb-0">
+                        {{ Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d H:i:s A') }}
+                    </p>
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">

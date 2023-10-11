@@ -120,7 +120,7 @@ class RegisterController extends Controller
         $user->ip = $request->ip();
         $user->user_agent = $request->server('HTTP_USER_AGENT');
         $user->login_at = Carbon::now();
-
+        
         $user->update();
 
         return redirect($this->redirectTo);

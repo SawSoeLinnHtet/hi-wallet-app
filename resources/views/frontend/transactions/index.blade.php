@@ -11,7 +11,7 @@
                     <div class="col-6 pe-1">
                         <div class="input-group my-2">
                             <label class="input-group-text p-1 p-md-3" for="date-picker">Date</label>
-                            <input type="text" id="date-picker" class="form-control" value="{{ request()->date ?? date('Y-m-d') }}">
+                            <input type="text" id="date-picker" class="form-control" value="{{ request()->date}}" placeholder="All">
                         </div>
                     </div>
                     <div class="col-6 ps-1">
@@ -45,7 +45,7 @@
                                     {{ $transaction->type == 'income' ? 'From' : 'To' }} {{ $transaction->Source->name }}
                                 </p>
                                 <p class="mb-1 text-muted">
-                                    {{ $transaction->created_at }}
+                                    {{ Carbon\Carbon::parse($transaction->created_at)->format('Y-m-d H:i:s A') }}
                                 </p>
                                 <a href="{{ route('get-transaction-details', $transaction->trx_id) }}" class="border-top border-muted py-2 d-flex justify-content-between">
                                     <span class="fw-bold">Details</span>
@@ -90,13 +90,20 @@
 
             $('#date-picker').daterangepicker({
                 "singleDatePicker": true,
-                "autoApply": true,
+                "autoUpdateInput": false,
+                "autoApply": false,
                 "locale": {
                     "format": "YYYY-MM-DD",
                 },
             });
 
             $('#date-picker').on('apply.daterangepicker', function(ev, picker) {
+                $('#date-picker').val(picker.startDate.format('YYYY-MM-DD'))    
+                filter();
+            });
+
+            $('#date-picker').on('cancel.daterangepicker', function(ev, picker) {
+                $('#date-picker').val('')
                 filter();
             });
 

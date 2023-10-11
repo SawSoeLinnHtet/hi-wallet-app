@@ -33,8 +33,12 @@ class PasswordController extends Controller
             $sourceable_id = $user->id;
             $sourceable_type = User::class;
             $web_link = route('profile');
+            $deep_link = [
+                'target' => 'profile',
+                'parameter' => null
+            ];
 
-            Notification::send([$user], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            Notification::send([$user], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link, $deep_link));
 
             return redirect()->route('profile')->with('update', 'Successfully updated');
         }

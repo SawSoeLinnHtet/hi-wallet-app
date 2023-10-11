@@ -160,8 +160,14 @@ class WalletController extends Controller
             $sourceable_id = $from_trx->trx_id;
             $sourceable_type = Transaction::class;
             $web_link = route('get-transaction-details', $from_trx->trx_id);
+            $deep_link = [
+                'target' => 'transaction_details',
+                'parameter' => [
+                    'trx_id' => $from_trx->trx_id,
+                ]
+            ];
 
-            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            Notification::send([$from_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link, $deep_link));
 
             //To Noti
             $title = 'E-Money Received!';
@@ -169,8 +175,14 @@ class WalletController extends Controller
             $sourceable_id = $to_trx->trx_id;
             $sourceable_type = User::class;
             $web_link = route('get-transaction-details', $to_trx->trx_id);
+            $deep_link = [
+                'target' => 'transaction_details',
+                'parameter' => [
+                    'trx_id' => $to_trx->trx_id,
+                ]
+            ];
 
-            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link));
+            Notification::send([$to_account], new GeneralNotification($title, $message, $sourceable_id, $sourceable_type, $web_link, $deep_link));
             
             DB::commit();
             return redirect()->route('get-transaction-details', $from_trx->trx_id)->with('transfer_success', 'Successfully transfer');

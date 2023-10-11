@@ -36,7 +36,7 @@ class UserRequest extends FormRequest
                 'name' => 'required',
                 'email' => 'required|email|unique:users,email',
                 'phone' => 'required|numeric|unique:users,phone',
-                'password' => 'required'
+                'password' => 'required|min:8|max:20|string'
             ];
         }
     }

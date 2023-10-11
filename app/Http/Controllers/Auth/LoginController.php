@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use Carbon\Carbon;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Providers\RouteServiceProvider;
@@ -62,6 +64,14 @@ class LoginController extends Controller
         $user->user_agent = $request->server('HTTP_USER_AGENT');
         $user->login_at = Carbon::now();
         $user->update();
+
+        Wallet::firstOrCreate(
+            ['user_id' =>  $user->id],
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount' => 0,
+            ]
+        );
 
         return redirect($this->redirectTo);
     }

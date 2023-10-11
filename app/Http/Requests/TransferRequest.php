@@ -25,7 +25,8 @@ class TransferRequest extends FormRequest
     {
         return [
             'to_phone' => 'required',
-            'amount' => 'required|integer|numeric|min:1000'
+            'amount' => 'required|integer|numeric|min:1000',
+            'hash_value' => 'required'
         ];
     }
 
@@ -33,7 +34,8 @@ class TransferRequest extends FormRequest
     {
         return [
             'to_phone.required' => 'Please fill the to account information.',
-            'amount.required' => 'Please fill the amount.'
+            'amount.required' => 'Please fill the amount.',
+            'hash_value.required' => 'The given data is invalid'
         ];
     }
 }

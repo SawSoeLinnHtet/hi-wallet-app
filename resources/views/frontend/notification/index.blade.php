@@ -17,7 +17,7 @@
                                 {{ Str::limit($notification->data['message'], 100) }}
                             </p>
                             <p class="text-muted mb-3">
-                                {{ Carbon\Carbon::parse($notification->created_at)->format('Y-m-d h:i:s A') }}
+                                {{ Carbon\Carbon::parse($notification->created_at)->format('Y-m-d H:i:s A') }}
                             </p>
                             <a href="{{ route('get-notification-details', $notification->id) }}" class="border-top border-muted py-2 d-flex justify-content-between">
                                 <span class="fw-bold">Details</span>
