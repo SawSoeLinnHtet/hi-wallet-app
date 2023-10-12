@@ -32,4 +32,8 @@ Route::group([
 
     Route::get('wallet', [WalletController::class, 'index'])->name('wallet.index');
     Route::get('wallet/datatable/ssd', [WalletController::class, 'ssd']);
+    Route::get('wallet/amount/add', [WalletController::class, 'add_form'])->name('get.wallet.amount.add');
+    Route::post('wallet/amount/add', [WalletController::class, 'add'])->name('post.wallet.amount.add');
+    Route::get('wallet/amount/reduce', [WalletController::class, 'reduce_form'])->name('get.wallet.amount.reduce');
+    Route::post('wallet/amount/reduce', [WalletController::class, 'reduce'])->name('post.wallet.amount.reduce');
 });

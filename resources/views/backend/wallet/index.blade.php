@@ -18,6 +18,15 @@
         </div>
     </div>
 
+    <div class="py-3">
+        <a href="{{ route('admin.get.wallet.amount.add') }}" class="btn btn-success">
+            <i class="fas fa-plus-circle mr-1"></i> Add amount
+        </a>
+        <a href="{{ route('admin.get.wallet.amount.reduce') }}" class="btn btn-danger">
+            <i class="fas fa-minus-circle mr-1"></i> Reduce amount
+        </a>
+    </div>
+
     <div>
         <div class="card">
             <div class="card-body table-responsive">

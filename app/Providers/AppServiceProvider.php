@@ -31,8 +31,8 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $unread_noti_count = 0;
 
-            if (Auth::check()) {
-                $unread_noti_count = Auth::User()->unreadNotifications()->count();
+            if (auth()->guard('web')->check()) {
+                $unread_noti_count = auth()->guard('web')->user()->unreadNotifications()->count();
             }
 
             $view->with('unread_noti_count', $unread_noti_count);
